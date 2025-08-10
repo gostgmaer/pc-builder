@@ -27,17 +27,12 @@ const getComponent = async (req, res) => {
   const { limit, page, filter, sort } = req.query;
 
   try {
-    const filterquery = FilterOptions(sort, page||1, limit||10, filter);
+    const filterquery = FilterOptions(sort, page||1, limit||50, filter);
     const data = await pcPart.find( filterquery.query,
-      "-__v -cat_id -child -parent_Component",
+      "-__v",
       filterquery.options);
 
-    //   const ComponentCounts = await Promise.all(
-    //     data.map(async (Component) => {
-    //       const total = await Component.getProductCount('publish');
-    //       return { ...Component._doc, total };
-    //     })
-    //   );
+
 
     const length = await pcPart.countDocuments(filterquery.query);
 
